@@ -14,11 +14,37 @@
 <body>
     <div id="summernote"></div>
     <script>
-      $('#summernote').summernote({
-        placeholder: 'Hello Bootstrap 4',
+        var saveButton  = function (context){
+            var ui = $.summernote.ui;
+            var button = ui.button({
+                contents: 'Save',
+                tooltip: 'save',
+                click: function () {
+                    var markupStr = $('#summernote').summernote('code');
+                    console.log(markupStr);
+                }
+            });
+            return button.render();
+        }
+        $('#summernote').summernote({
+        placeholder: 'Hello!',
         tabsize: 2,
-        fullScreen : true
-      });
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+            ['mybutton', ['save']]
+        ],
+        buttons: {
+            save: saveButton
+        }
+        });
+        $('#summernote').summernote('fullscreen.toggle');
     </script>
 </body>
 </html>
