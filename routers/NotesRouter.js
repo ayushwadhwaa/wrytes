@@ -9,17 +9,17 @@ NotesRouter.get('/notes', async (req, res)=> {
         const note = await Note.findOne({noteId: req.query.noteId});
         if(note){
             res.render('notes',{
-                content: note.content
+                content: note.content,
+                id: req.query.noteId
             });
         }else{
             res.render('notes',{
-                content: "Hello!"
+                content: "Hello!",
+                id: req.query.noteId
             });
         }
     }else{
-        res.render('notes',{
-            content: "No Pervious Content"
-        });
+        res.render("Please Provide noteId in url");
     }
 });
 NotesRouter.post('/saveNote', async (req, res)=>{
@@ -27,7 +27,7 @@ NotesRouter.post('/saveNote', async (req, res)=>{
     if(preNote){
         preNote.content = req.body.content;
         await preNote.save();
-        res.send("Updated");
+        res.send({status: "updated"});
     }else{
         const note = new Note({
             noteId: req.query.noteId,
@@ -38,7 +38,7 @@ NotesRouter.post('/saveNote', async (req, res)=>{
         }catch(err){
             console.log(err);
         }
-        res.send("Saved");
+        res.send({status:"saved"});
     }
 });
 module.exports = NotesRouter;
